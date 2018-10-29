@@ -87,4 +87,7 @@
         <variable name="APP_NAME" value="2FeApps" />
     </plugin>
     <plugin name="cordova-plugin-appavailability" spec="0.4.2" />
+    <plugin name="cordova-plugin-htj-kakaotalk" spec="../KakaoTalk">
+        <variable name="KAKAO_APP_KEY" value="32b9156e560d63c9f9243fb6abcf3beb" />
+    </plugin>
 </widget>
