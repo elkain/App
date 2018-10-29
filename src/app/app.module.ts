@@ -17,6 +17,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { AppAvailability } from '@ionic-native/app-availability';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { InAppBrowser, InAppBrowserEvent, InAppBrowserObject } from '@ionic-native/in-app-browser';;
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
     AppAvailability,
     AndroidPermissions,
     NativeStorage,
+    InAppBrowser,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StorageProvider
   ]

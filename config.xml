@@ -93,4 +93,5 @@
     <plugin name="org.loicknuchel.cordova.deviceaccounts" spec="https://github.com/loicknuchel/cordova-device-accounts.git" />
     <plugin name="cordova-plugin-android-permissions" spec="1.0.0" />
     <plugin name="cordova-plugin-nativestorage" spec="2.3.2" />
+    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
 </widget>
