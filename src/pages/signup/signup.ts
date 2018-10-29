@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, Platform, AlertController } from '
 import { ShopPage } from '../shop/shop';
 import { PasswordPage } from '../password/password';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
-import { cordovaWarn } from '@ionic-native/core';
 import { StorageProvider } from '../../providers/storage/storage';
 declare var cordova:any;
 declare var plugins:any;
