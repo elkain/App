@@ -33,7 +33,6 @@
     "@ionic/pro": "2.0.3",
     "@ionic/storage": "2.2.0",
     "@types/crypto-js": "^3.1.43",
-    "cordova-android": "7.1.1",
     "cordova-device-accounts": "git+https://github.com/loicknuchel/cordova-device-accounts.git",
     "cordova-plugin-android-permissions": "1.0.0",
     "cordova-plugin-appavailability": "0.4.2",
@@ -87,8 +86,6 @@
       },
       "cordova-plugin-ionic-keyboard": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }
