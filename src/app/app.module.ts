@@ -16,6 +16,7 @@ import { ComponentsModule } from '../components/components.module';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { AppAvailability } from '@ionic-native/app-availability';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
     Facebook,
     AppAvailability,
     AndroidPermissions,
+    NativeStorage,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StorageProvider
   ]
