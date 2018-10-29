@@ -20,6 +20,7 @@
     "@angular/http": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
+    "@ionic-native/android-permissions": "^4.16.0",
     "@ionic-native/app-availability": "^4.16.0",
     "@ionic-native/core": "~4.15.0",
     "@ionic-native/facebook": "^4.16.0",
@@ -27,6 +28,8 @@
     "@ionic-native/status-bar": "~4.15.0",
     "@ionic/pro": "2.0.3",
     "@ionic/storage": "2.2.0",
+    "cordova-device-accounts": "git+https://github.com/loicknuchel/cordova-device-accounts.git",
+    "cordova-plugin-android-permissions": "1.0.0",
     "cordova-plugin-appavailability": "0.4.2",
     "cordova-plugin-facebook4": "3.1.0",
     "cordova-plugin-htj-kakaotalk": "file:../KakaoTalk",
@@ -50,7 +53,9 @@
       "cordova-plugin-appavailability": {},
       "cordova-plugin-htj-kakaotalk": {
         "KAKAO_APP_KEY": "32b9156e560d63c9f9243fb6abcf3beb"
-      }
+      },
+      "org.loicknuchel.cordova.deviceaccounts": {},
+      "cordova-plugin-android-permissions": {}
     }
   }
 }

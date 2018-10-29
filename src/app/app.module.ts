@@ -15,7 +15,7 @@ import { StorageProvider } from '../providers/storage/storage';
 import { ComponentsModule } from '../components/components.module';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { AppAvailability } from '@ionic-native/app-availability';
-
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 @NgModule({
   declarations: [
@@ -41,6 +41,7 @@ import { AppAvailability } from '@ionic-native/app-availability';
     SplashScreen,
     Facebook,
     AppAvailability,
+    AndroidPermissions,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StorageProvider
   ]

@@ -90,4 +90,6 @@
     <plugin name="cordova-plugin-htj-kakaotalk" spec="../KakaoTalk">
         <variable name="KAKAO_APP_KEY" value="32b9156e560d63c9f9243fb6abcf3beb" />
     </plugin>
+    <plugin name="org.loicknuchel.cordova.deviceaccounts" spec="https://github.com/loicknuchel/cordova-device-accounts.git" />
+    <plugin name="cordova-plugin-android-permissions" spec="1.0.0" />
 </widget>
