@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { SignupPage } from '../signup/signup';
+import { LoginProvider } from '../../providers/login/login';
 
 /**
  * Generated class for the LoginPage page.
@@ -16,7 +17,8 @@ import { SignupPage } from '../signup/signup';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private loginProvider:LoginProvider,
+              private alertController:AlertController) {
   }
 
   ionViewDidLoad() {
@@ -24,10 +26,26 @@ export class LoginPage {
   }
 
   kakaoLogin(){
-    this.navCtrl.push(SignupPage);
+    this.loginProvider.loginSocialLogin("kakaotalk").then((res: any) => {
+      this.navCtrl.push(SignupPage, { type: "kakaotalk", id: res.id });
+    }, err => {
+      let alert = this.alertController.create({
+        title: '카카오톡 로그인에 실패했습니다.',
+        buttons: ['OK']
+      });
+      alert.present();
+    });
   }
 
   facebookLogin(){
-    this.navCtrl.push(SignupPage);
+    this.loginProvider.loginSocialLogin("facebook").then((res:any)=>{
+      this.navCtrl.push(SignupPage,{type:"facebook",id:res.id});
+    }, err=>{
+      let alert = this.alertController.create({
+        title:'페이스북 로그인에 실패했습니다.',
+        buttons : ['OK']
+      });
+      alert.present();
+    });
   }
 }
