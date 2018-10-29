@@ -39,7 +39,7 @@
     "cordova-plugin-appavailability": "0.4.2",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-email-composer": "0.8.15",
-    "cordova-plugin-facebook4": "3.1.0",
+    "cordova-plugin-facebook4": "git+https://github.com/jeduan/cordova-plugin-facebook4.git",
     "cordova-plugin-htj-kakaotalk": "file:../KakaoTalk",
     "cordova-plugin-inappbrowser": "3.0.0",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
@@ -65,8 +65,8 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-facebook4": {
-        "APP_ID": "496545137511168",
-        "APP_NAME": "2FeApps"
+        "APP_ID": "336386633612382",
+        "APP_NAME": "TestApp"
       },
       "cordova-plugin-appavailability": {},
       "cordova-plugin-htj-kakaotalk": {
