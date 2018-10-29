@@ -20,6 +20,8 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { InAppBrowser, InAppBrowserEvent, InAppBrowserObject } from '@ionic-native/in-app-browser';;
 import { SMS } from '@ionic-native/sms';
 import { EmailComposer, EmailComposerOptions } from '@ionic-native/email-composer';
+import { CardProvider } from '../providers/card/card';
+import { LoginProvider } from '../providers/login/login';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { EmailComposer, EmailComposerOptions } from '@ionic-native/email-compose
     SMS,
     EmailComposer,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    StorageProvider
+    StorageProvider,
+    CardProvider,
+    LoginProvider
   ]
 })
 export class AppModule {}
