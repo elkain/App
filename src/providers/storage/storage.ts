@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import * as CryptoJS from 'crypto-js';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 /*
   Generated class for the StorageProvider provider.
@@ -12,7 +14,12 @@ export class StorageProvider {
   deliveryFee:number = 3000;
   payInfo:any = [{info:{name:"BC카드", mask_no:"xxxxxxxx****xxxxxxxxxxx"}}];
 
-  constructor() {
+  type;
+  id;
+  email;
+  password;
+
+  constructor(private nativeStorage:NativeStorage) {
     console.log('Hello StorageProvider Provider');
     this.determinCardColor();
   }
@@ -58,6 +65,50 @@ export class StorageProvider {
       }
     })
     console.log("payments:"+JSON.stringify(this.payInfo));
+  }
+
+  saveId(type, id, email){
+    let string=JSON.stringify({type:type, id:id, email:email})
+    console.log("saveId:"+string);
+    var encrypted:string=this.encryptionValue(string);
+    this.nativeStorage.setItem('id', encodeURI(encrypted));
     
+    this.type = type;
+    this.id = id;
+    this.email = email;
+  }
+
+  readId(){
+    return new Promise((resolve, reject)=>{
+      console.log("readId getItem");
+      
+      this.nativeStorage.getItem("id").then((value:string)=>{
+        console.log("...value:"+value);
+        if(value==null){
+          reject();
+        }else{
+          console.log("...id:"+this.decryptionValue(value));
+          let obj=JSON.parse(this.decryptionValue(value));
+          this.email=obj.email;
+          this.type=obj.type;
+          this.id=obj.id;
+          resolve(JSON.parse(this.decryptionValue(value)));
+        }
+      },(err)=>{
+        reject();
+      });
+    });
+  }
+
+  savePassword(password){
+    this.password=password;
+  }
+
+  encryptionValue(string){
+    return string;
+  }
+
+  decryptionValue(string){
+    return string;
   }
 }
