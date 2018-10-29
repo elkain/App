@@ -18,6 +18,7 @@ import { AppAvailability } from '@ionic-native/app-availability';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { InAppBrowser, InAppBrowserEvent, InAppBrowserObject } from '@ionic-native/in-app-browser';;
+import { SMS } from '@ionic-native/sms';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { InAppBrowser, InAppBrowserEvent, InAppBrowserObject } from '@ionic-nati
     AndroidPermissions,
     NativeStorage,
     InAppBrowser,
+    SMS,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StorageProvider
   ]
