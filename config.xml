@@ -41,7 +41,8 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
-        <config-file parent="/resources" target="./res/values/strings.xml">
+        <!--페이스 북 플러그인 사용시 필수적으로 추가 -->
+        <config-file parent="/resources" target="./res/values/strings.xml"> 
             <string name="fb_app_id">336386633612382</string>
             <string name="fb_app_name">TestApp</string>
         </config-file>
