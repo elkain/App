@@ -62,9 +62,9 @@
     <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
     <plugin name="cordova-sms-plugin" spec="0.1.13" />
     <plugin name="cordova-plugin-email-composer" spec="0.8.15" />
-    <engine name="android" spec="~7.1.1" />
     <plugin name="cordova-plugin-facebook4" spec="git+https://github.com/jeduan/cordova-plugin-facebook4.git">
         <variable name="APP_ID" value="336386633612382" />
         <variable name="APP_NAME" value="TestApp" />
     </plugin>
+    <engine name="android" spec="7.1.1" />
 </widget>
