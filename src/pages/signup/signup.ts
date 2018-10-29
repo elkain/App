@@ -73,7 +73,7 @@ export class SignupPage {
         }else{
           let alert = this.alertController.create({
             title:'문자전송허가 없이는 앱가입이 불가능합니다.',
-            buttons:['OK'];
+            buttons:['OK']
           });
           alert.present();
           return;
