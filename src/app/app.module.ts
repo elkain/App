@@ -19,6 +19,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { InAppBrowser, InAppBrowserEvent, InAppBrowserObject } from '@ionic-native/in-app-browser';;
 import { SMS } from '@ionic-native/sms';
+import { EmailComposer, EmailComposerOptions } from '@ionic-native/email-composer';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { SMS } from '@ionic-native/sms';
     NativeStorage,
     InAppBrowser,
     SMS,
+    EmailComposer,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StorageProvider
   ]

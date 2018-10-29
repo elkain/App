@@ -23,6 +23,7 @@
     "@ionic-native/android-permissions": "^4.16.0",
     "@ionic-native/app-availability": "^4.16.0",
     "@ionic-native/core": "~4.15.0",
+    "@ionic-native/email-composer": "^4.16.0",
     "@ionic-native/facebook": "^4.16.0",
     "@ionic-native/in-app-browser": "^4.16.0",
     "@ionic-native/native-storage": "^4.16.0",
@@ -34,6 +35,7 @@
     "cordova-device-accounts": "git+https://github.com/loicknuchel/cordova-device-accounts.git",
     "cordova-plugin-android-permissions": "1.0.0",
     "cordova-plugin-appavailability": "0.4.2",
+    "cordova-plugin-email-composer": "0.8.15",
     "cordova-plugin-facebook4": "3.1.0",
     "cordova-plugin-htj-kakaotalk": "file:../KakaoTalk",
     "cordova-plugin-inappbrowser": "3.0.0",
@@ -64,7 +66,8 @@
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-nativestorage": {},
       "cordova-plugin-inappbrowser": {},
-      "cordova-sms-plugin": {}
+      "cordova-sms-plugin": {},
+      "cordova-plugin-email-composer": {}
     }
   }
 }
