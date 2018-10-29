@@ -14,6 +14,8 @@ import { PasswordPageModule } from '../pages/password/password.module';
 import { StorageProvider } from '../providers/storage/storage';
 import { ComponentsModule } from '../components/components.module';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { AppAvailability } from '@ionic-native/app-availability';
+
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
     StatusBar,
     SplashScreen,
     Facebook,
+    AppAvailability,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StorageProvider
   ]
