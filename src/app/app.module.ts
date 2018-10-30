@@ -38,7 +38,7 @@ import { LoginProvider } from '../providers/login/login';
     PasswordPageModule,
     ComponentsModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp,{mode:"ios"})
+    IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
