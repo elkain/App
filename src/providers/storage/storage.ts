@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { Platform } from 'ionic-angular';
 
 /*
   Generated class for the StorageProvider provider.
@@ -19,9 +20,15 @@ export class StorageProvider {
   email;
   phone="01012345678"
 
-  constructor(private nativeStorage:NativeStorage) {
+  constructor(private nativeStorage:NativeStorage, platform:Platform) {
     console.log('Hello StorageProvider Provider');
-    this.determinCardColor();
+    platform.ready().then(()=>{
+      this.readPayInfo().then(()=>{
+        this.determinCardColor();
+        console.log("StorageProvider-payInfo:"+JSON.stringify(this.payInfo));
+      });
+    });
+    
   }
 
   cardColorlist=[
