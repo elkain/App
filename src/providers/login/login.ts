@@ -4,6 +4,7 @@ import { Facebook } from '@ionic-native/facebook';
 import { Platform } from 'ionic-angular';
 import { AppAvailability } from '@ionic-native/app-availability';
 import { InAppBrowser, InAppBrowserEvent } from '@ionic-native/in-app-browser';
+import { StorageProvider } from '../storage/storage';
 declare var KakaoTalk: any;
 /*
   Generated class for the LoginProvider provider.
@@ -18,7 +19,8 @@ export class LoginProvider {
   restAPIKey = '55003b3ae6bd0a45629c3b680347c98c';
   kakaoOuathUrl = 'http://218.145.181.49:8080/oauth'
 
-  constructor(public http: HttpClient, private fb:Facebook, private platform:Platform, private appAvailability:AppAvailability, private iab:InAppBrowser) {
+  constructor(public http: HttpClient, public fb:Facebook, private platform:Platform, private appAvailability:AppAvailability, 
+              private iab:InAppBrowser, public storageProvider:StorageProvider) {
     console.log('Hello LoginProvider Provider');
   }
 
