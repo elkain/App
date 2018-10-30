@@ -31,10 +31,11 @@ export class LoginProvider {
         this.fb.getLoginStatus().then((status_response) => {
           console.log(JSON.stringify(status_response));
           if (status_response.status == 'connected') {
-            console.log(("connected status:" + JSON.stringify(status_response)));
-            console.log((status_response.authResponse.userID));
+            console.log("connected status:" + JSON.stringify(status_response));
+            console.log(status_response.authResponse.userID);
             this.fb.api("me/?fields=id, email, last_name, first_name", ["public_profile", "email"]).then((api_response) => {
-              console.log(JSON.stringify(api_response));
+              console.log("login:"+JSON.stringify(api_response));
+              resolve(api_response);
             }, (api_err) => {
               console.log("facebook.api error:" + JSON.stringify(api_err));
               let reason = { stage: "api_err", msg: api_err };
@@ -48,6 +49,7 @@ export class LoginProvider {
 
               this.fb.api("me/?fields=id, email, last_name, first_name", ["public_profile", "email"]).then((api_response) => {
                 console.log(JSON.stringify(api_response));
+                resolve(api_response);
               }, (api_err) => {
                 console.log("facebook.api error:" + JSON.stringify(api_err));
                 let reason = { stage: "api_err", msg: api_err };

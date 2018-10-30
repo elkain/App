@@ -36,9 +36,11 @@ export class LoginPage {
       alert.present();
     });
   }
-
+  
   facebookLogin(){
     this.loginProvider.loginSocialLogin("facebook").then((res:any)=>{
+      console.log("id:"+JSON.stringify(res));
+
       this.navCtrl.push(SignupPage,{type:"facebook",id:res.id});
     }, err=>{
       let alert = this.alertController.create({
