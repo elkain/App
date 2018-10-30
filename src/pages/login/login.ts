@@ -27,6 +27,7 @@ export class LoginPage {
 
   kakaoLogin(){
     this.loginProvider.loginSocialLogin("kakaotalk").then((res: any) => {
+      console.log("res:" + res);
       this.navCtrl.push(SignupPage, { type: "kakaotalk", id: res.id });
     }, err => {
       let alert = this.alertController.create({
@@ -39,7 +40,7 @@ export class LoginPage {
   
   facebookLogin(){
     this.loginProvider.loginSocialLogin("facebook").then((res:any)=>{
-      console.log("id:"+JSON.stringify(res));
+      console.log("res:"+res);
 
       this.navCtrl.push(SignupPage,{type:"facebook",id:res.id});
     }, err=>{
