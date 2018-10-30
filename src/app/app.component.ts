@@ -15,16 +15,20 @@ export class MyApp {
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private loginProvider:LoginProvider, private storageProvider:StorageProvider) {
     platform.ready().then(() => {
-      this.storageProvider.readId().then((res:any)=>{
-        this.loginProvider.loginSocialLogin(res.type).then((obj:any)=>{
-          if(obj.id==res.id){
-            this.rootPage=ShopPage;
-          }else{
-            this.rootPage=LoginPage;
+      console.log("platform ready comes");
+      this.storageProvider.readId().then((res: any) => {
+        //res.type
+        this.loginProvider.loginSocialLogin(res.type).then((obj: any) => {
+          console.log("obj:" + JSON.stringify(obj));
+          if (obj.id == res.id) {
+            this.rootPage = ShopPage;
+          } else {
+            this.rootPage = LoginPage;
           }
         });
-      }, (err)=>{
-        this.rootPage=LoginPage;
+      }, err => {
+        console.log("err:" + JSON.stringify(err));
+        this.rootPage = LoginPage;
       });
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
