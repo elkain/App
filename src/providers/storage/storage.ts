@@ -17,7 +17,7 @@ export class StorageProvider {
   type;
   id;
   email;
-  password;
+  phone="01012345678"
 
   constructor(private nativeStorage:NativeStorage) {
     console.log('Hello StorageProvider Provider');
@@ -101,14 +101,73 @@ export class StorageProvider {
   }
 
   savePassword(password){
-    this.password=password;
+    console.log("savePassword:" + password);
+    var encrypted: string = this.encryptionValue(password);
+    this.nativeStorage.setItem('password', encodeURI(encrypted));
   }
 
-  encryptionValue(string){
-    return string;
+  readPassword(){
+    return new Promise((resolve, reject) => {
+      console.log("readPassword getItem");
+
+      this.nativeStorage.getItem("password").then((value: string) => {
+        console.log("...value:" + value);
+        if (value == null) {
+          reject();
+        } else {
+          console.log("...password:" + this.decryptionValue(value));
+          resolve(this.decryptionValue(value));
+        }
+      }, (err) => {
+        reject();
+      });
+    });
   }
 
-  decryptionValue(string){
-    return string;
+  /*  암호화 방법 수정 필요 
+      키 전송 방법이 조잡함, AES 가 아닌 sha1 등의 암호화 방식으로 변형 필요 */
+  encryptionValue(value){
+    var buffer = "";
+
+    for(var i = 0; i < 16; i++){
+      buffer+=Math.floor((Math.random()*10));
+    }
+
+    console.log("buffer"+buffer);
+    var encrypted = CryptoJS.AES.encrypt(value,buffer);
+    console.log("value:"+buffer+encrypted);
+    
+    return (buffer+encrypted);
+  }
+
+  decryptionValue(value){
+    var key = value.substring(0, 16);
+    var encrypt = value.substring(16, value.length);
+    console.log("value:" + value + " key:" + key + " encrypt: " + encrypt);
+    var decrypted = CryptoJS.AES.decrypt(encrypt, key);
+
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  }
+
+  savePayInfo(){
+    var encrypted:string = this.encryptionValue(JSON.stringify(this.payInfo));
+    this.nativeStorage.setItem('payInfo', encodeURI(encrypted));
+  }
+
+  readPayInfo(){
+    return new Promise((resolve, reject)=>{
+      this.nativeStorage.getItem("payInfo").then((value:string)=>{
+        console.log("value:"+value);
+        if(value==null){
+          reject();
+        }else{
+          console.log(this.decryptionValue(value));
+          this.payInfo=JSON.parse(this.decryptionValue(value));
+          resolve();
+        }
+      }, (err)=>{
+        reject();
+      });
+    });
   }
 }

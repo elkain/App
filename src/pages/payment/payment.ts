@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { Component, NgZone } from '@angular/core';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { StorageProvider } from '../../providers/storage/storage';
 import { PasswordPage } from '../password/password';
+import { CardProvider } from '../../providers/card/card';
+import { SMS } from '@ionic-native/sms';
+declare var cordova:any;
 /**
  * Generated class for the PaymentPage page.
  *
@@ -43,7 +46,10 @@ export class PaymentPage {
   payAmount=0;
   totalAmount=0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storageProvider:StorageProvider) {
+  orderDetail;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storageProvider:StorageProvider, 
+              private alertController:AlertController, private ngZone:NgZone, private cardProvider:CardProvider, private sms:SMS) {
     this.menu = this.navParams.get("menu");
     this.options = this.navParams.get("options");
     this.totalAmount = this.navParams.get("amount");
@@ -140,11 +146,42 @@ export class PaymentPage {
   }
   
   removeCard(i){
-    
+    let alert = this.alertController.create({
+      title: this.storageProvider.payInfo[i].info.name + "를 삭제하시겠습니까?",
+      buttons : [{
+        text:'네',
+        handler:()=>{
+          console.log("Agree clicked");
+          this.ngZone.run(()=>{
+            this.cardProvider.removeCard(i);
+            this.currentCardClassesArray.splice(i,1);
+          });
+        }
+      },
+      {
+        text:'아니오',
+        handler:()=>{
+          console.log("Disagree clicked");
+        }
+      }]
+    });
+    alert.present();
   }
   
   addCard(){
+    this.cardProvider.addCard().then((res)=>{
+      this.ngZone.run(()=>{
+        this.currentCardClassesArray.push({
+          'card-card':true,
+          'scroll-col-latest':true,
+          'card-unselect-border':true,
+          'select-scroll-col-latest':false,
+          'card-select-border':false
+        });
+      });
+    },(err)=>{
 
+    });
   }
   
   back(){
@@ -152,22 +189,82 @@ export class PaymentPage {
   }
 
   pay(){
+    if(this.cardIndex==-1){
+      let alert =this.alertController.create({
+        title:'결제카드를 선택해주시기 바랍니다.',
+        buttons:['OK']
+      });
+      alert.present();
+      return;
+    }
+
+    if(this.storageProvider.payInfo[this.cardIndex].info.customer_uid==undefined||this.storageProvider.payInfo[this.cardIndex].info.customer_uid.length==0){
+      let alert=this.alertController.create({
+        title:'등록 카드정보에 오류가 있습니다.',
+        buttons:['OK']
+      });
+
+      alert.present();
+      return;
+    }
     this.navCtrl.push(PasswordPage, {class:"passordPage", callback:this.myCallbackPasswordFunction});
   }
 
   myCallbackPasswordFunction = (_params) =>{
     return new Promise((resolve,reject)=>{
-      let views:ViewController[];
-      views = this.navCtrl.getViews();
-      views.forEach(view=>{
-        if(view.getNavParams().get("class")!=undefined){
-          console.log("class:"+view.getNavParams().get("class"));
-          if (view.getNavParams().get("class") == "MenuPage" || view.getNavParams().get("class") == "PaymentPage"){
-            console.log("remove " + view.getNavParams().get("class"));
-            this.navCtrl.removeView(view);
-          }
+      this.storageProvider.readPassword().then((password)=>{
+        if(password==_params){
+          this.cardProvider.payCard(this.storageProvider.payInfo[this.cardIndex].info.customer_uid, this.payAmount, "앱주문").then((approval) => {
+
+            let views: ViewController[];
+            views = this.navCtrl.getViews();
+            views.forEach(view => {
+              if (view.getNavParams().get("class") != undefined) {
+                console.log("class:" + view.getNavParams().get("class"));
+                if (view.getNavParams().get("class") == "MenuPage" || view.getNavParams().get("class") == "PaymentPage") {
+                  console.log("remove " + view.getNavParams().get("class"));
+                  this.navCtrl.removeView(view);
+                }
+              }
+            })
+
+            this.orderDetail += "승인번호:" + approval;
+            this.sms.send(this.storageProvider.phone, this.orderDetail).then((value)=>{
+
+            }, (err)=>{
+              let alert = this.alertController.create({
+                title:'문자전송에 실패했습니다. 상점에 연락바랍니다.',
+                buttons:['OK']
+              });
+              alert.present();
+            });
+
+            cordova.plugins.email.isAvailable((available)=>{
+              if(available){
+                //Now we know we can send
+                cordova.plugins.email.open({
+                  to: this.storageProvider.email,
+                  subject:'주문정보',
+                  body: this.orderDetail
+                });
+              }else{
+                let alert =this.alertController.create({
+                  title:'이미일 전송에 실패했습니다.',
+                  buttons:['OK']
+                });
+                alert.present();
+              }
+            });
+            resolve();
+          });
+        }else{
+          let alert=this.alertController.create({
+            title:'결재비밀번호 오류입니다.',
+            buttons:['OK']
+          });
         }
-      })
+      });
+      
       resolve();
     });
   }
