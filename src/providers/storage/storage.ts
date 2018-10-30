@@ -20,7 +20,7 @@ export class StorageProvider {
   email;
   phone="01012345678"
 
-  constructor(private nativeStorage:NativeStorage, platform:Platform) {
+  constructor(private nativeStorage:NativeStorage, private platform:Platform) {
     console.log('Hello StorageProvider Provider');
     platform.ready().then(()=>{
       this.readPayInfo().then(()=>{
@@ -66,7 +66,7 @@ export class StorageProvider {
       payment.background=this.defaultCardColor;
       for(var i=0; i<this.cardColorlist.length; i++){
         let name:string=payment.info.name;
-        if(name.toLocaleLowerCase().startsWith(this.cardColorlist[i].name)){
+        if(name!=undefined && name.toLocaleLowerCase().startsWith(this.cardColorlist[i].name)){
           payment.background=this.cardColorlist[i].color;
         }
       }
