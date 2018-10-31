@@ -68,7 +68,6 @@ export class LoginProvider {
           let reason = { stage: "status_err", msg: status_err };
           reject(reason);
         });
-        resolve();
       });
     } else if(type=="kakaotalk"){
       return new Promise((resolve, reject)=>{

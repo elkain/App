@@ -29,7 +29,7 @@ export class SignupPage {
   userAgreementShown:boolean = false; // 1
 
   currentShown; // undefined
-  paswwordConfirmString:string="";
+  passwordConfirmString:string="";
   passwordString:string="";
   passwordMask:boolean=false;
   passwordConfirmMask:boolean=false;
@@ -68,16 +68,18 @@ export class SignupPage {
       });
 
       androidPermissions.checkPermission(androidPermissions.PERMISSION.SEND_SMS).then((status)=>{
-        if(status.hasPermission){
+        androidPermissions.requestPermission(androidPermissions.PERMISSION.GET_ACCOUNTS).then((status) => {
+          if(status.hasPermission){
 
-        }else{
-          let alert = this.alertController.create({
-            title:'문자전송허가 없이는 앱가입이 불가능합니다.',
-            buttons:['OK']
-          });
-          alert.present();
-          return;
-        }
+          }else{
+            let alert = this.alertController.create({
+              title:'문자전송허가 없이는 앱가입이 불가능합니다.',
+              buttons:['OK']
+            });
+            alert.present();
+            return;
+          }
+        });
       });
     }
 
@@ -131,8 +133,12 @@ export class SignupPage {
     }
   }
 
-  validateEmail(email){
-    return true;
+  validateEmail(email){   //http://www.w3resource.com/javascript/form/email-validation.php
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   show(title){
@@ -162,9 +168,9 @@ export class SignupPage {
       console.log("password confirm params:" + _params);
       this.password = _params;
       this.ngZone.run(() => {
-        this.passwordString = "******";
-        this.passwordMask = true;
-        console.log("this.passwordConfirmString:" + this.passwordString);
+        this.passwordConfirmString = "******";
+        this.passwordConfirmMask = true;
+        console.log("this.passwordConfirmString:" + this.passwordConfirmString);
       });
       resolve();
     });

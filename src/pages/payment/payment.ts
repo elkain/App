@@ -4,6 +4,7 @@ import { StorageProvider } from '../../providers/storage/storage';
 import { PasswordPage } from '../password/password';
 import { CardProvider } from '../../providers/card/card';
 import { SMS } from '@ionic-native/sms';
+import { EmailComposer } from '@ionic-native/email-composer';
 declare var cordova:any;
 /**
  * Generated class for the PaymentPage page.
@@ -49,15 +50,17 @@ export class PaymentPage {
   orderDetail;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storageProvider:StorageProvider, 
-              private alertController:AlertController, private ngZone:NgZone, private cardProvider:CardProvider, private sms:SMS) {
+              private alertController:AlertController, private ngZone:NgZone, private cardProvider:CardProvider, private sms:SMS, private emailComposer:EmailComposer) {
     this.menu = this.navParams.get("menu");
     this.options = this.navParams.get("options");
     this.totalAmount = this.navParams.get("amount");
+    this.orderDetail = this.navParams.get("orderDetail");
 
     this.payAmount = this.totalAmount * 0.97;
     this.discount = this.totalAmount * 0.03;
 
     console.log("discount:"+ this.discount);
+    console.log("...payInfo:"+ JSON.stringify(this.storageProvider.payInfo));
 
     this.storageProvider.payInfo.forEach(payment=>{
       this.currentCardClassesArray.push({
@@ -68,21 +71,6 @@ export class PaymentPage {
         'card-select-border':false
       });
     });
-
-    let views: ViewController[];
-    views = this.navCtrl.getViews();
-    views.forEach(view => {
-      console.log("view.name:"+view.name);
-      console.log("view.id:"+view.id);
-      console.log("view.instance:"+view.instance);
-      
-      if (view.getNavParams().get("class") != undefined) {
-        console.log("class:" + view.getNavParams().get("class"));
-        if (view.getNavParams().get("class") == "CashPasswordPage" || view.getNavParams().get("class") == "MenuPage") {
-          this.navCtrl.removeView(view);
-        }
-      }
-    })
   }
 
   ionViewDidLoad() {
@@ -179,6 +167,8 @@ export class PaymentPage {
           'card-select-border':false
         });
       });
+      console.log("...currentCardClassesArray:"+JSON.stringify(this.currentCardClassesArray));
+      
     },(err)=>{
 
     });
@@ -226,8 +216,15 @@ export class PaymentPage {
                   this.navCtrl.removeView(view);
                 }
               }
-            })
+            });
+            //문자 보내기, email보내기 
+            /*
+            this.sms.hasPermission().then((available)=>{
+                    console.log("sms.hasPermission:"+available);
+            },err=>{
 
+            });
+            */
             this.orderDetail += "승인번호:" + approval;
             this.sms.send(this.storageProvider.phone, this.orderDetail).then((value)=>{
 
@@ -240,6 +237,8 @@ export class PaymentPage {
             });
 
             cordova.plugins.email.isAvailable((available)=>{
+              console.log("!!!! hasAcount"+available);
+              
               if(available){
                 //Now we know we can send
                 cordova.plugins.email.open({
@@ -262,10 +261,9 @@ export class PaymentPage {
             title:'결재비밀번호 오류입니다.',
             buttons:['OK']
           });
+          reject();
         }
       });
-      
-      resolve();
     });
   }
 }

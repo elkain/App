@@ -15,8 +15,8 @@ export class CardProvider {
   done:boolean=false;
   browserRef;
 
-  constructor(public http: HttpClient, private iab:InAppBrowser, private storageProvider:StorageProvider, 
-              public platform:Platform, private alertController:AlertController) {
+  constructor(private http: HttpClient, private iab:InAppBrowser, public storageProvider:StorageProvider, 
+              private platform:Platform, private alertController:AlertController) {
     console.log('Hello CardProvider Provider');
     gCardProvider=this;
   }
@@ -61,7 +61,7 @@ export class CardProvider {
           }
           gCardProvider.done=true;
           console.log("result:"+e.url);
-          if(e.url.includes("imp_success=tre")){
+          if(e.url.includes("imp_success=true")){
             console.log("cert success");
             let strs=e.url.split("imp_uid=");
             let strs1=strs[1].split("&");
@@ -120,7 +120,7 @@ export class CardProvider {
                 location.href = '${redirectUrl}?imp_success=false&imp_uid='+rsp.imp_uid+'&merchant_uid='+rsp.merchant_uid+'&error_msg='+rsp.error_msg;
             }
           }`;
-          const iamport_script = 'IMP.request_pqy(${JSON.stringify(param)}, ${inlineCallback})';
+          const iamport_script = 'IMP.request_pay(${JSON.stringify(param)}, ${inlineCallback})';
           this.browserRef.executeScript({
             code : iamport_script
           });
@@ -141,7 +141,7 @@ export class CardProvider {
   getAccessToken(){
     return new Promise((resolve,reject)=>{
       // PG 사 key 와 비밀번호
-      let body={imp_key:"xxxxx", imp_secret:"xxxxxxxxxxxxxxxx"};
+      let body = { imp_key: "0878886247430095", imp_secret:"HUn9M5jY5HUUjKL0KrWT0SieKT5cEAnl"};
       this.http.post("https://api.iamport.kr/users/getToken",body).subscribe((res:any)=>{
         console.log("res:"+JSON.stringify(res));
         resolve(res.response.accessToken);
@@ -190,6 +190,7 @@ export class CardProvider {
         this.storageProvider.payInfo.push({info:{name:param.card_name, mask_no:param.card_number, customer_uid:param.customer_uid}});
         this.storageProvider.determinCardColor();
         this.storageProvider.savePayInfo();
+        console.log("addCard call resolve ");
         resolve({ info: { name: param.card_name, mask_no: param.card_number, customer_uid: param.customer_uid } });
       },(err)=>{
         let alert = this.alertController.create({
