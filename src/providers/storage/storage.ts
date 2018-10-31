@@ -13,7 +13,7 @@ import { Platform } from 'ionic-angular';
 export class StorageProvider {
 
   deliveryFee:number = 3000;
-  payInfo:any = [{info:{name:"BC카드", mask_no:"xxxxxxxx****xxxxxxxxxxx"}}];
+  payInfo:any = [{info:{name:"BC카드", mask_no:"xxxxxxxx****xxxxxxxxxxx", customer_uid:"12345"}}];
 
   type;
   id;
