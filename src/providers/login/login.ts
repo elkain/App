@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Facebook } from '@ionic-native/facebook';
 import { Platform } from 'ionic-angular';
 import { AppAvailability } from '@ionic-native/app-availability';
-import { InAppBrowser, InAppBrowserEvent } from '@ionic-native/in-app-browser';
 import { StorageProvider } from '../storage/storage';
 declare var KakaoTalk: any;
 /*
@@ -20,7 +19,7 @@ export class LoginProvider {
   kakaoOuathUrl = 'http://218.145.181.49:8080/oauth'
 
   constructor(public http: HttpClient, public fb:Facebook, private platform:Platform, private appAvailability:AppAvailability, 
-              private iab:InAppBrowser, public storageProvider:StorageProvider) {
+              public storageProvider:StorageProvider) {
     console.log('Hello LoginProvider Provider');
   }
 
@@ -86,7 +85,13 @@ export class LoginProvider {
           console.log(scheme + ' is avaliable. call KaKaoTalk.login');
           KakaoTalk.login((userProfile) => {
             console.log("userProfile:" + JSON.stringify(userProfile));
-            console.log("Successful kakako login");
+            var id;
+            if(typeof userProfile == "string"){
+              id = userProfile;
+            }else{  // humm... userProfile data type changes. why?
+              id = userProfile.id;
+            }
+            console.log("Successful kakako login with"+id);
             /* !!!! Add app server login here !!!*/
             resolve(userProfile);
           }, (err) => {
@@ -97,19 +102,8 @@ export class LoginProvider {
           });
         }, (error) => {
           // Error callback
-          let SuccessComes: boolean = false;
-          this.browserRef = this.iab.create("https://kauth.kakao.com/oauth/authorize?client_id=" + this.restAPIKey +
-            "&redirect_uri=" + this.kakaoOuathUrl + "&response_type=code", "_blank");
-          this.browserRef.on("exit").subscribe((event: InAppBrowserEvent) => {
-            let successsComes: boolean = false;
-            console.log("exit comes:" + JSON.stringify(event));
-            setTimeout(() => {
-              if (!successsComes) {
-                let reason = { stage: "login_error", msg: "no input" };
-                reject(reason);
-              }
-            }, 1000); // 1second. Is it enough?
-          });
+          console.log(scheme + ' is not available');
+          reject({stage:"social_login", msg:"카카오톡이 설치되어 있지 않습니다."});
         });
       });
     }
