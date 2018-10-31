@@ -116,11 +116,11 @@ export class SignupPage {
         return;
       }
 
-      if(this.password!=this.passwordConform){
+      if (this.password != this.passwordConform) {
         let alert = this.alertController.create({
           title: '결재 비밀번호가 일치하지 않습니다.',
           buttons: ['OK']
-        });
+        });    
         alert.present();
         return false;
       }
@@ -152,12 +152,12 @@ export class SignupPage {
 
   myCallbackPasswordFunction=(_params) => {
     return new Promise((resolve, reject)=>{
-      console.log("password confirm params:"+_params);
-      this.password = _params;
+      console.log("password params:"+_params);
+      this.password = _params.join();
       this.ngZone.run(()=>{
         this.passwordString="******";
         this.passwordMask = true;
-        console.log("this.passwordConfirmString:"+this.passwordString);
+        console.log("this.passwordString:"+this.passwordString);
       });
       resolve();
     });
@@ -166,7 +166,7 @@ export class SignupPage {
   myCallbackPasswordConfirmFunction = (_params) => {
     return new Promise((resolve, reject) => {
       console.log("password confirm params:" + _params);
-      this.password = _params;
+      this.passwordConform = _params.join();
       this.ngZone.run(() => {
         this.passwordConfirmString = "******";
         this.passwordConfirmMask = true;
