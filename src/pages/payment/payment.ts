@@ -58,7 +58,7 @@ export class PaymentPage {
 
     this.payAmount = this.totalAmount * 0.97;
     this.discount = this.totalAmount * 0.03;
-
+    
     console.log("discount:"+ this.discount);
     console.log("...payInfo:"+ JSON.stringify(this.storageProvider.payInfo));
 
@@ -197,13 +197,13 @@ export class PaymentPage {
       alert.present();
       return;
     }
-    this.navCtrl.push(PasswordPage, {class:"passordPage", callback:this.myCallbackPasswordFunction});
+    this.navCtrl.push(PasswordPage, { class:"PasswordPage", callback:this.myCallbackPasswordFunction});
   }
 
   myCallbackPasswordFunction = (_params) =>{
     return new Promise((resolve,reject)=>{
       this.storageProvider.readPassword().then((password)=>{
-        if(password==_params){
+        if(password==_params.join()){
           this.cardProvider.payCard(this.storageProvider.payInfo[this.cardIndex].info.customer_uid, this.payAmount, "앱주문").then((approval) => {
 
             let views: ViewController[];
@@ -261,6 +261,7 @@ export class PaymentPage {
             title:'결재비밀번호 오류입니다.',
             buttons:['OK']
           });
+          alert.present();
           reject();
         }
       });
